@@ -1,24 +1,31 @@
 #!/usr/bin/env python3
 """
-a module that provides a function for returning the first element
-    of a list, or None if the list is empty.
+a module that provides a function for safely getting a value from
+    a mapping.
 """
-from typing import Sequence, Union, Any
+from typing import Any, Mapping, Union, TypeVar
+
+T = TypeVar('T')
+Res = Union[Any, T]
+Def = Union[T, None]
 
 
-def safe_first_element(lst: Sequence[Any]) -> Union[Any, None]:
+def safely_get_value(dct: Mapping, key: Any, default: Def = None) -> Res:
     """
-    This function returns the first element of a sequence, or None if the
-        sequence is empty.
+    This function gets the value for a given key in a mapping, or returns
+        a default value if the key is not in the mapping.
 
     Parameters:
-    lst (Sequence): The sequence to process.
+    dct (Mapping): The mapping to get the value from.
+    key (Any): The key to look up in the mapping.
+    default (Union[T, None]): The default value to return if the key is not
+        in the mapping.
 
     Returns:
-    Union[object, None]: The first element of the sequence, or None if the
-        sequence is empty.
+    Union[Any, T]: The value for the key in the mapping, or the default
+        value if the key is not in the mapping.
     """
-    if lst:
-        return lst[0]
+    if key in dct:
+        return dct[key]
     else:
-        return None
+        return default
